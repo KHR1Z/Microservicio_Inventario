@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 @Profile("dev")
 @Component
@@ -24,22 +25,26 @@ public class DataLoader implements CommandLineRunner {
         Faker faker = new Faker();
         Random random = new Random();
 
-        // Generar categorias
-        for (int i = 0; i < 3; i++) {
-            Categoria categoria  =new Categoria();
-            categoria.setidCategoria(i + 1);
-            categoria.setDescripcion(faker.commerce().productName());
-            productoRepository.save(categoria);
-        }
 
+        // Generar categorías
+        for (int i = 1; i <= 5; i++){
+            Categoria categoria = new Categoria();
+            categoria.setIdCategoria("null");
+            categoria.setDescripcion(faker.commerce().department());
+            productoRepository.save(categoria);
+
+        }
 
         // Generar productos
         for (int i = 1; i <= 50; i++) {
             Producto producto = new Producto();
-            producto.setnombre(faker.commerce().productName());
+            producto.setNombre(faker.commerce().productName());
             producto.setDescripcion(faker.lorem().sentence());
             producto.setPrecio(random.nextDouble() * 100 + 10);
             producto.setStock(random.nextInt(100) + 1); 
+
+            productoRepository.save(producto);
         }
+
     }
 }
