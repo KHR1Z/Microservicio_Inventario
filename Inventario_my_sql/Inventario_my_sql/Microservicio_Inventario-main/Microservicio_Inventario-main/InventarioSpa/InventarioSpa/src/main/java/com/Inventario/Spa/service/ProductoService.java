@@ -1,6 +1,6 @@
 package com.Inventario.Spa.service;
 
-import com.Inventario.Spa.model.Categoria;
+/*import com.Inventario.Spa.model.Categoria;*/
 import com.Inventario.Spa.model.Producto;
 import com.Inventario.Spa.repository.ProductoRepository;
 import jakarta.transaction.Transactional;

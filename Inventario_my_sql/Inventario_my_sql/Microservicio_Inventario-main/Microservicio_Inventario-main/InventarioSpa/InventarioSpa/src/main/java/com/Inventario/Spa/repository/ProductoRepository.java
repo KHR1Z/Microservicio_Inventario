@@ -1,6 +1,6 @@
 package com.Inventario.Spa.repository;
 
-import com.Inventario.Spa.model.Categoria;
+/*import com.Inventario.Spa.model.Categoria; */
 import com.Inventario.Spa.model.Producto;
 
 import org.springframework.data.jpa.repository.JpaRepository;

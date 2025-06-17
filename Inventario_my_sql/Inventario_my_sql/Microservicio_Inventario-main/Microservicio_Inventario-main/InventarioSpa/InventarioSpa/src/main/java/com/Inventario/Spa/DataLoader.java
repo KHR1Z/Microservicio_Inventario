@@ -19,6 +19,9 @@ public class DataLoader implements CommandLineRunner {
 
     @Autowired
     private ProductoRepository productoRepository;
+    private CategoriaRepository categoriaRepository;
+
+    
 
     @Override
     public void run(String... args) throws Exception {
@@ -31,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
             Categoria categoria = new Categoria();
             categoria.setIdCategoria("null");
             categoria.setDescripcion(faker.commerce().department());
-            productoRepository.save(categoria);
+            categoriaRepository.save(categoria);
 
         }
 
