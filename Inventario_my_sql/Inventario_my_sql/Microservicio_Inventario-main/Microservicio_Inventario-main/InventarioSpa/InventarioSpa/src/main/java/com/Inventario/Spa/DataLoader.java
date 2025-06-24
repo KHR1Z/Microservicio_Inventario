@@ -19,35 +19,26 @@ public class DataLoader implements CommandLineRunner {
 
     @Autowired
     private ProductoRepository productoRepository;
-    private CategoriaRepository categoriaRepository;
-
-    
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String...args) throws Exception{
         Faker faker = new Faker();
-        Random random = new Random();
 
-
-        // Generar categorías
-        for (int i = 1; i <= 5; i++){
-            Categoria categoria = new Categoria();
-            categoria.setIdCategoria("null");
-            categoria.setDescripcion(faker.commerce().department());
-            categoriaRepository.save(categoria);
-
-        }
-
-        // Generar productos
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 0; i < 100; i++) {
             Producto producto = new Producto();
+
             producto.setNombre(faker.commerce().productName());
             producto.setDescripcion(faker.lorem().sentence());
-            producto.setPrecio(random.nextDouble() * 100 + 10);
-            producto.setStock(random.nextInt(100) + 1); 
-
+            producto.setPrecio(Double.parseDouble(faker.commerce().price()));
             productoRepository.save(producto);
-        }
 
+            String idCategoria = "CAT" + (i % 10 + 1);
+            Categoria categoria = new Categoria();
+            categoria.setIdCategoria(idCategoria);
+            
+            producto.setCategoria(categoria);
+            
+            productoRepository.save(producto);// Genera un ID de categoría entre CAT1 y CAT10
+        }   
     }
 }

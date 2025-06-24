@@ -1,14 +1,15 @@
 package com.Inventario.Spa.repository;
 
 import com.Inventario.Spa.model.Categoria;
-/*import com.Inventario.Spa.model.Producto;*/
+
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
-public interface CategoriaRepository extends JpaRepository<Categoria,String> {
 
+public interface CategoriaRepository extends JpaRepository<Categoria, String> {
 
+    List<Categoria> findAll(); // Método para obtener todas las categorías
 }
