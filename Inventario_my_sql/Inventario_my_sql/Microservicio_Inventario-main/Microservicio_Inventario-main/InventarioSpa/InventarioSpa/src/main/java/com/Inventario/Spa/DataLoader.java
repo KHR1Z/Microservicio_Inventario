@@ -43,8 +43,7 @@ public class DataLoader implements CommandLineRunner {
 
             // Asignar una categoría existente
             String idCategoria = "CAT" + (i % 10 + 1);
-            Categoria categoria = categoriaRepository.findById(idCategoria)
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada: " + idCategoria));
+            Categoria categoria = categoriaRepository.findById(idCategoria).orElse(null);
             producto.setCategoria(categoria);
 
             productoRepository.save(producto);
