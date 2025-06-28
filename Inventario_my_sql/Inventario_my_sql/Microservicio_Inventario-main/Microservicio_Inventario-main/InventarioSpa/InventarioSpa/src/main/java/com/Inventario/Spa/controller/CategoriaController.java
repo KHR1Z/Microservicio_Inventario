@@ -1,6 +1,7 @@
 package com.Inventario.Spa.controller;
 
 import com.Inventario.Spa.model.Categoria;
+import com.Inventario.Spa.model.Producto;
 import com.Inventario.Spa.service.CategoriaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
@@ -27,6 +33,12 @@ public class CategoriaController {
 
     @GetMapping
     @Operation(summary = "Listar todas las categorías", description = "Obtiene una lista de todas las categorías disponibles")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Categorías encontradas",
+            content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Producto.class))),
+        @ApiResponse(responseCode = "404", description = "No se encontraron categorías")
+    })
     public ResponseEntity<List<Categoria>> listar() {
         List<Categoria> listaCategorias = categoriaService.getAllCategorias();
         if (listaCategorias.isEmpty()) {
@@ -37,6 +49,12 @@ public class CategoriaController {
 
     @PostMapping
     @Operation(summary = "Guardar una nueva categoría", description = "Crea una nueva categoría en el sistema")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Categoría creada correctamente",
+            content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Producto.class))),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida")
+    })
     public ResponseEntity<Categoria> guardar(@RequestBody Categoria categoria) {
         Categoria categoriaNueva = categoriaService.save(categoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaNueva);
@@ -45,7 +63,15 @@ public class CategoriaController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar categoría por ID", description = "Obtiene una categoría específica por su ID")
-    public ResponseEntity<Categoria> buscar(@PathVariable String id) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Categoría encontrada",
+            content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Producto.class))),
+        @ApiResponse(responseCode = "404", description = "Categoría no encontrada")
+    })
+    public ResponseEntity<Categoria> buscar(
+        @Parameter(description = "ID de la categoría a buscar", required = true, example = "CAT001")
+        @PathVariable String id) {
         try {
             Categoria categoria = categoriaService.findById(id);
             return ResponseEntity.ok(categoria);
@@ -56,7 +82,16 @@ public class CategoriaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar categoría", description = "Actualiza los detalles de una categoría existente")
-    public ResponseEntity<Categoria> actualizar(@PathVariable String id, @RequestBody Categoria categoria) {
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Producto actualizado correctamente",
+            content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Producto.class))),
+        @ApiResponse(responseCode = "404", description = "Categoría no encontrada"),
+        @ApiResponse(responseCode = "400", description = "Solicitud inválida")
+    })
+    public ResponseEntity<Categoria> actualizar(
+        @Parameter(description = "ID de la categoría a actualizar", required = true, example = "CAT001")
+        @PathVariable String id, @RequestBody Categoria categoria) {
         try {
             Categoria cat = categoriaService.findById(id);
             cat.setIdCategoria(id);
@@ -70,7 +105,11 @@ public class CategoriaController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar categoría", description = "Elimina una categoría del sistema por su ID")
-    public ResponseEntity<Void> eliminar(@PathVariable String id) {
+    @ApiResponse(responseCode = "204", description = "Categoría eliminada correctamente")
+    @ApiResponse(responseCode = "404", description = "Categoría no encontrada")
+    public ResponseEntity<Void> eliminar(
+        @Parameter(description = "ID de la categoría a eliminar", required = true, example = "CAT001")
+        @PathVariable String id) {
         try {
             categoriaService.delete(id);
             return ResponseEntity.noContent().build();

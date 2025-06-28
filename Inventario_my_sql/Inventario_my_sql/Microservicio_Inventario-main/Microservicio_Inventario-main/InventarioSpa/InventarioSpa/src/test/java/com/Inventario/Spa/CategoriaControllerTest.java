@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import com.Inventario.Spa.model.Categoria;
-import com.Inventario.Spa.repository.CategoriaRepository;
 import com.Inventario.Spa.service.CategoriaService;
 import com.Inventario.Spa.controller.CategoriaController;
 
